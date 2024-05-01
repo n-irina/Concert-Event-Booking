@@ -32,7 +32,7 @@ $event = $statement->fetchAll(PDO::FETCH_ASSOC);
             <div class="detailcontainer">
 
                 <div class="event-card">
-                    <div class="event-image"><img src="imageconcertbeyonce.jpg" alt=""></div>
+                    <div class="event-image"><img src="<?= $oneEvent['picture'] ?>"></div>
                     <div class="event-details">
                         <div>
                             <h4><?= $oneEvent['eventName'] ?></h4>
@@ -41,8 +41,6 @@ $event = $statement->fetchAll(PDO::FETCH_ASSOC);
                                 <p>Date : <?= $oneEvent['date'] ?> </p>
                         </div>
                         <div>
-                            <p class="event-info">Salle de concert<br>
-                                <?= $oneEvent['concertHall'] ?></p>
                             <button class="btn btn-primary">Reservez</button>
                         </div>
                         <div>

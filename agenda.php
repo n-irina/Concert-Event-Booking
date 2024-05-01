@@ -27,7 +27,7 @@ $event = $statement->fetchAll(PDO::FETCH_ASSOC);
                             <h4><?= $oneEvent['category'] ?></h4>
                         </div>
                         <div class="cardtext text-center">
-                            <h5>?= $oneEvent['date'] ?><h5>
+                            <h5><?= $oneEvent['date'] ?><h5>
                         </div>
                         <div>
                             <h6><?= $oneEvent['price'] ?> €</h6>

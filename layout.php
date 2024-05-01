@@ -38,12 +38,12 @@ $pdo = new PDO('mysql:host=localhost;dbname=DonkeyEvent', 'root');
                     <div class="verticalline"></div>
                     <div class="navdroite">
                         <?php
-                        if (isset($_SESSION["user"]) || isset($_SESSION["admin"])) {
+                        if (isset($_SESSION["user"])) {
                             echo '<form action="deconnexion.php" class="d-flex">
                     <button class="btn btn-outline-secondary" type="submit">Déconnexion</button>
                 </form>';
                         }
-                        if (isset($_SESSION["user"]) || isset($_SESSION["admin"])) {
+                        if (!isset($_SESSION["user"])) {
                             echo '<form action="connexion.php" class="d-flex">
                     <button class="btn btn-outline-secondary" type="submit">Connexion</button>
                 </form>';
@@ -60,13 +60,9 @@ $pdo = new PDO('mysql:host=localhost;dbname=DonkeyEvent', 'root');
 <?php
 
 if (isset($_SESSION["user"])) {
-    echo $_SESSION["admin"] . " vous êtes connecté(e)";
-}elseif (isset($_SESSION["admin"])) {
-    echo "Admin, vous êtes connecté(e)";
+    echo $_SESSION["user"] . " vous êtes connecté(e)";
 }
 ?>
-</body>
-</html>
 
 <!--
 <footer>
