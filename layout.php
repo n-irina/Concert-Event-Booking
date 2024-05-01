@@ -28,9 +28,6 @@ $pdo = new PDO('mysql:host=localhost;dbname=DonkeyEvent', 'root');
                         <li class="nav-item">
                             <a class="nav-link" href="agenda.php">Agenda</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="category.php">Catégories</a>
-                        </li>
                     </ul>
                     <div class="navdroite">
                         <form action="search.php" method="GET" class="d-flex">
@@ -41,12 +38,12 @@ $pdo = new PDO('mysql:host=localhost;dbname=DonkeyEvent', 'root');
                     <div class="verticalline"></div>
                     <div class="navdroite">
                         <?php
-                        if (isset($_SESSION["user"])) {
+                        if (isset($_SESSION["user"]) || isset($_SESSION["admin"])) {
                             echo '<form action="deconnexion.php" class="d-flex">
                     <button class="btn btn-outline-secondary" type="submit">Déconnexion</button>
                 </form>';
                         }
-                        if (!isset($_SESSION["user"])) {
+                        if (isset($_SESSION["user"]) || isset($_SESSION["admin"])) {
                             echo '<form action="connexion.php" class="d-flex">
                     <button class="btn btn-outline-secondary" type="submit">Connexion</button>
                 </form>';
@@ -63,10 +60,15 @@ $pdo = new PDO('mysql:host=localhost;dbname=DonkeyEvent', 'root');
 <?php
 
 if (isset($_SESSION["user"])) {
-    echo $_SESSION["user"] . " vous êtes connecté(e)";
+    echo $_SESSION["admin"] . " vous êtes connecté(e)";
+}elseif (isset($_SESSION["admin"])) {
+    echo "Admin, vous êtes connecté(e)";
 }
 ?>
+</body>
+</html>
 
+<!--
 <footer>
     <div class="container py-4">
         <div class="row mt-3">
@@ -79,3 +81,5 @@ if (isset($_SESSION["user"])) {
 
 </body>
 </html>
+
+-->
