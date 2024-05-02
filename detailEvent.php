@@ -1,43 +1,138 @@
-<?php
+<!DOCTYPE html>
+<html lang="fr">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'Événement</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <style>
+
+    </style>
+</head>
+
+<?php
 include "layout.php";
 
 $id = $_GET['id'];
 
-
 $pdo = new \PDO('mysql:host=localhost;dbname=DonkeyEvent', 'root');
-$statement = $pdo->query("SELECT * FROM event WHERE idevent=$id");
 
-$event = $statement->fetch(PDO::FETCH_ASSOC);
+$statement = $pdo->prepare("SELECT *, DATE_FORMAT(date.time, '%H:%i') AS time_formatted FROM event JOIN date ON event.idevent = date.idevent WHERE event.idevent = :id");
+$statement->bindParam(':id', $id, PDO::PARAM_INT);
+$statement->execute();
+$events = $statement->fetchAll(PDO::FETCH_ASSOC);
+$statement2 = $pdo->prepare("SELECT name FROM artist 
+                            JOIN event_has_artist ON event_has_artist.idartist = artist.idartist
+                            JOIN event ON event_has_artist.idevent = event.idevent
+                            WHERE event.idevent = :id");
+$statement2->bindParam(':id', $id, PDO::PARAM_INT);
+$statement2->execute();
+$artists = $statement2->fetchAll(PDO::FETCH_ASSOC);
+     
+
+
+// Créer un tableau de dates à passer à JavaScript
+$dates_vertes = [];
+$dates_rouges = [];
+foreach ($events as $event) {
+    if ($event['numberPlaces'] < 10000) {
+        $dates_vertes[] = $event['date'];
+    } else {
+        $dates_rouges[] = $event['date'];
+    }
+}
+
+// Encoder les tableaux en JSON
+$dates_vertes_json = json_encode($dates_vertes);
+$dates_rouges_json = json_encode($dates_rouges);
+
+
 
 ?>
 
 
-<div class="card" style="width: 25rem;">
-    <div class="card-body">
-        <h4 class="card-title text-center" style="margin-top:20px; margin-top:20px;"><?= $event['eventName'] ?>
-        </h4>
-        <p class="card-text text-center">
-            <img src="<?= $event['picture'] ?>" class="card-img-top" style="object-fit: contain; height:300px; margin-top:10px; margin-bottom:15px;">
 
-            <?php
-            $event_statement = $pdo->prepare("SELECT * FROM event WHERE idevent = :idevent");
-            $event_statement->bindValue(':idevent', $id, \PDO::PARAM_INT);
-            $event_statement->execute();
 
-            $event = $event_statement->fetchAll(PDO::FETCH_ASSOC);
 
-            ?>Concert :
-            <?= $event['eventName'] ?> :<br>
-            <?php foreach ($event as $oneEvent) { ?>
-                <a href="detailEvent.php?id=<?= $oneEvent['idevent'] ?>">
-                    <?= $oneEvent['eventName'] ?></a><br>
-            <?php
+<body>
+    <section class="detailEvent">
+        <div class="detailcontainer">
+            <div class="event-card">
+                <div class="event-image"><img src="<?= $event['picture'] ?>" class="eventPicture"></div>
+                <div class="event-details">
+                    <div>
+                        <h4><?= $events[0]['eventName'] ?></h4>
+                        <p class="event-info"><?= $events[0]['category'] ?><br>
+                            Artiste(s) : <br>
+                             <?php foreach($artists as $artist){?>
+                                <?=$artist['name']?>
+                            <?php
+                             }
+                             ?>
+                        
+                        <p>Date(s) : <br>
+                            <?php foreach ($events as $event) { 
+                                        ?>
+                                <?= $event['date'].': '.$event['time_formatted']?></p>
+                            <?php
+                            }
+                        
+                            ?>
+                        </p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary">Réserver</button>
+                    </div>
+                    <div>
+                        <span class="price"><?= $events[0]['price'] ?>€</span>
+                    </div>
+                </div>
+                <div id='calendar' style='margin-left: 200px;'></div>
+            </div>
+        </div>
+
+    </section>
+    <script>
+        // Récupérer les données JSON dans JavaScript
+        let datesVertes = <?php echo $dates_vertes_json; ?>;
+        let datesRouges = <?php echo $dates_rouges_json; ?>;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let calendarEl = document.getElementById('calendar');
+
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: [
+                    <?php foreach ($dates_vertes as $date) { ?>
+                        {
+                            
+                            title: '<?php $events[0]['eventName'] ?>',
+                            start: '<?= $date ?>', // Date à colorer en vert
+                            backgroundColor: 'green'
+                        },
+                    <?php } ?>
+                    <?php foreach ($dates_rouges as $date) { ?>
+                        {
+                            title: 'Complet',
+                            start: '<?= $date ?>', // Date à colorer en rouge
+                            backgroundColor: 'red'
+                        },
+                    <?php } ?>
+                ],
+                eventClick: function(info) {
+                // Redirect to booking.php when clicking on a green date
+                if (info.event.backgroundColor === 'green') {
+                    window.location.href = "booking.php";
+                }
             }
-            ?>
-        </p>
-        <p>
-            Categorie : <tr><?= $event['category'] ?>
-        </p>
-    </div>
-</div>
+            });
+
+            calendar.render();
+        });
+        console.log(datesVertes);
+    </script>
+  
+
+</html>
