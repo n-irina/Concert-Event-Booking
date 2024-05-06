@@ -2,7 +2,6 @@
 
 include "layout.php";
 
-
 ?>
 
 <body>
@@ -19,3 +18,5 @@ include "layout.php";
 </div>
 </div>
 </body>
+
+
