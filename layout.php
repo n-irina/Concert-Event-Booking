@@ -21,60 +21,64 @@
     $pdo = new PDO('mysql:host=localhost;dbname=DonkeyEvent', 'root');
     ?>
     <div class="content">
-        <header>
-            <nav class="navbar navbar-expand-lg bg-body-tertiary navbar-custom">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="donkeyEvent.php">DonkeyEvent</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="agenda.php">Agenda</a>
-                            </li>
-                        </ul>
-                        <div class="navdroite">
-                            <form action="search.php" method="GET" class="d-flex">
-                                <input class="form-control me-2" type="search" placeholder="Concert, catégorie, artiste" aria-label="search" name="search" style="width: 280px;">
-                                <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
-                            </form>
-                        </div>
-                        <div class="verticalline"></div>
-                        <div class="navdroite">
-                            <?php
-                            if (isset($_SESSION["user"]) || (isset($_SESSION["admin"]) && $_SESSION["admin"])) {
-                                echo '<form action="deconnexion.php" class="d-flex">
-                                <button class="btn btn-outline-secondary" type="submit">Déconnexion</button>
-                                </form>';
-                            } else {
-                                echo '<form action="connexion.php" class="d-flex">
-                                <button class="btn btn-outline-secondary" type="submit">Connexion</button>
-                                </form>';
-                            }
-                            ?>
-                        </div>
-                        <div class="usericon">
-                            &nbsp&nbsp<i class="fa-solid fa-user"></i>&nbsp&nbsp&nbsp
-                        </div>
-                    </div>
+    <header>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="donkeyEvent.php">DonkeyEvent</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="agenda.php">Agenda</a>
+                    </li>
+                </ul>
+                <form action="dates.php" method="GET" class="d-flex align-items-center">
+                    <label for="start">&nbsp&nbspdu&nbsp;</label>
+                    <input type="date" id="start" name="start_date" value="2024-05-06" min="2024-05-06" max="2025-12-31" class="form-control me-2" />
+                    <label for="end">&nbsp;au&nbsp;</label>
+                    <input type="date" id="end" name="end_date" value="2024-05-06" min="2024-05-06" max="2025-12-31" class="form-control me-2" />
+                    <button class="btn btn-outline-secondary" type="submit">Valider</button>
+                </form>
+                <form action="search.php" method="GET" class="d-flex align-items-center ms-3">
+                    <input class="form-control me-2" type="search" placeholder="Concert, catégorie, artiste" aria-label="search" name="search" style="width: 280px;">
+                    <button class="btn btn-outline-secondary" type="submit">Rechercher</button>
+                </form>
+                <div class="verticalline"></div>
+                <div>
+                    <?php if (isset($_SESSION["user"]) || (isset($_SESSION["admin"]) && $_SESSION["admin"])) : ?>
+                        <form action="deconnexion.php" class="d-flex">
+                            <button class="btn btn-outline-secondary" type="submit">Déconnexion</button>
+                        </form>
+                    <?php else : ?>
+                        <form action="connexion.php" class="d-flex">
+                            <button class="btn btn-outline-secondary" type="submit">Connexion</button>
+                        </form>
+                    <?php endif; ?>
                 </div>
-            </nav>
-        </header>
+                <div class="usericon ms-3">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
     </div>
     <?php
     ?>
 
     <?php
 
-if (isset($_SESSION["user"])) {
-    echo $_SESSION["user"] . " vous êtes connecté(e)";
-    $statement = $pdo->prepare("SELECT iduser FROM user WHERE iduser = :iduser");
-    $statement->bindValue(':iduser', $_SESSION["user"], PDO::PARAM_INT);
-    $statement->execute();
-    $iduser = $statement->fetchColumn();
-    $_SESSION['iduser'] = $iduser;
-}
+    if (isset($_SESSION["user"])) {
+        echo $_SESSION["user"] . " vous êtes connecté(e)";
+        $statement = $pdo->prepare("SELECT iduser FROM user WHERE iduser = :iduser");
+        $statement->bindValue(':iduser', $_SESSION["user"], PDO::PARAM_INT);
+        $statement->execute();
+        $iduser = $statement->fetchColumn();
+        $_SESSION['iduser'] = $iduser;
+    }
 
 
 
