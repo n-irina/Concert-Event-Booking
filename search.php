@@ -1,5 +1,5 @@
 <?php
-include "layout.php";
+include "header.php";
 
 $search = $_GET['search'];
 
@@ -52,10 +52,10 @@ if (empty($_GET['search'])) {
                         <?php
                         }
                         ?>
-                        <button class="btn btn-primary">Reservez</button>
+                        <button class="btn btn-outline-secondary" style='margin-bottom: 10px;'>Reservez</button>
                         <h4 class="price"><?= $oneEvent['price'] ?>€</h4>
                     </div>
-                    <div id="calendar<?= $oneEvent['idevent'] ?>" style="margin-left: 20px;"></div> <!-- Calendrier à droite -->
+                    <div id="calendar<?= $oneEvent['idevent'] ?>" style="margin-left: 20px;"></div>
                 </div>
             </div>
         </div>
@@ -92,3 +92,7 @@ if (empty($_GET['search'])) {
 });
     <?php } ?>
 </script>
+
+<?php
+include "footer.php";
+?>

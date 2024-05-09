@@ -1,3 +1,9 @@
+
+header {
+    background-color: #f6f5f5;
+    padding: 10px;
+}
+
 .navbar-custom {
     font-size: 1.2rem;
 }
@@ -43,15 +49,6 @@ footer {
     color:rgb(0, 56, 64);
 }
 
-body {
-    background-image: url('backgroundconcert.jpg'); 
-    background-repeat: no-repeat;
-    background-size: cover; 
-    background-position: center; 
-    background-attachment: fixed; 
-    margin-bottom: 50px;
-  
-}
 
 .calendarContainer {
     margin-right: 10px;
@@ -92,12 +89,16 @@ body {
     flex-direction: column;
     justify-content: space-between;
 }
+
+.event-details a{
+    text-decoration: none;
+}
 .event-info {
     font-size: 0.9rem;
     color: #666;
 }
 .price {
-    color: #4A90E2;
+    color:rgb(0, 56, 64);
     font-weight: bold;
 }
 

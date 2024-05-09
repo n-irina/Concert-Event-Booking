@@ -1,5 +1,5 @@
 <?php
-include "layout.php";
+include "header.php";
 
 $id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
@@ -131,3 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 </div>
+
+<?php
+include "footer.php";
+?>

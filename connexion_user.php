@@ -1,6 +1,6 @@
 
 <?php
-include "layout.php";
+include "header.php";
 
 $email = $_POST['email'];
 $password = $_POST['password'];
@@ -32,4 +32,8 @@ if ($user) {
         exit;
     }
 }
+?>
+
+<?php
+include "footer.php";
 ?>

@@ -1,10 +1,10 @@
 <?php
 
-include "layout.php";
+include "header.php";
 
 ?>
 
-<body>
+
 <div>
     <h2 class="text-center mt-3">Connexion</h2>
     <div class="container mt-4">
@@ -17,6 +17,9 @@ include "layout.php";
     </div>
 </div>
 </div>
-</body>
 
 
+
+<?php
+include "footer.php";
+?>

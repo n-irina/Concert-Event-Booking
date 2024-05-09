@@ -1,12 +1,10 @@
 <?php
-include "layout.php";
+include "header.php";
 
 $start_date = isset($_GET['start_date']) ? $_GET['start_date'] : null;
 $end_date = isset($_GET['end_date']) ? $_GET['end_date'] : null;
 
 if ($start_date === null || $end_date === null) {
-    // Gérer le cas où les dates de début et de fin ne sont pas définies
-    // Redirection ou affichage d'un message d'erreur, par exemple
     exit("Les dates de début et de fin doivent être spécifiées.");
 }
 
@@ -39,7 +37,7 @@ $events = $statementEvents->fetchAll(PDO::FETCH_ASSOC);
                         <div class="card">
                             <div class="row no-gutters">
                                 <div class="col-md-4">
-                                    <img src="<?= $oneEvent['picture'] ?>" class="card-img" alt="Event Image">
+                                    <img src="<?= $oneEvent['picture'] ?>" class="card-img" alt="Event Image" style="margin-top: 20px; margin-left: 20px;">
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
@@ -61,7 +59,7 @@ $events = $statementEvents->fetchAll(PDO::FETCH_ASSOC);
                                             ?>
                                             <p><?= $date['date'] ?> <?= $date['time'] ?></p>
                                         <?php } ?>
-                                        <button class="btn btn-primary">Réservez</button>
+                                        <button class="btn btn-outline-secondary" style="margin-bottom: 10px;">Réservez</button>
                                         <h4 class="price"><?= $oneEvent['price'] ?>€</h4>
                                     </div>
                                 </div>
@@ -74,32 +72,7 @@ $events = $statementEvents->fetchAll(PDO::FETCH_ASSOC);
     </section>
 <?php } ?>
 
-<script>
-    // JavaScript pour initialiser le calendrier pour chaque événement
-    <?php foreach ($events as $oneEvent) { ?>
-        document.addEventListener('DOMContentLoaded', function() {
-            let calendarEl<?= $oneEvent['idevent'] ?> = document.getElementById('calendar<?= $oneEvent['idevent'] ?>');
 
-            let calendar<?= $oneEvent['idevent'] ?> = new FullCalendar.Calendar(calendarEl<?= $oneEvent['idevent'] ?>, {
-                initialView: 'dayGridMonth',
-                events: [
-                    <?php foreach ($dates as $date) { ?> {
-                            title: '<?= $oneEvent['eventName'] ?>',
-                            start: '<?= $date['date'] ?>', // Date à colorer en vert
-                            backgroundColor: 'green'
-                        },
-                    <?php } ?>
-                ],
-                eventClick: function(info) {
-                    // Rediriger vers la page de réservation lorsque l'utilisateur clique sur un événement
-                    window.location.href = "booking.php";
-                },
-                locale: 'fr', // Définir la locale en français
-                dayHeaderFormat: { weekday: 'narrow' } // Formater le format d'en-tête de jour
-            });
-
-            calendar<?= $oneEvent['idevent'] ?>.render();
-        });
-    <?php } ?>
-</script>
-
+<?php
+include "footer.php";
+?>

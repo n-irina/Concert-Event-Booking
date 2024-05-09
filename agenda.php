@@ -1,5 +1,5 @@
 <?php
-include "layout.php";
+include "header.php";
 
 $pdo = new \PDO('mysql:host=localhost;dbname=DonkeyEvent', 'root');
 
@@ -71,3 +71,9 @@ $events = $statement->fetchAll(PDO::FETCH_ASSOC);
         <?php } ?>
     </div>
 </div>
+
+<?php
+
+include "footer.php";
+
+?>

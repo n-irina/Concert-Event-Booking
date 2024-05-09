@@ -1,5 +1,5 @@
 <?php
-include "layout.php";
+include "header.php";
 
 $id = $_GET['id'];
 
@@ -38,7 +38,7 @@ $dates_rouges_json = json_encode($dates_rouges);
 
 
 
-<body>
+
     <section class="detailEvent">
         <div class="detailcontainer">
             <div class="event-card">
@@ -65,7 +65,7 @@ $dates_rouges_json = json_encode($dates_rouges);
                         </p>
                     </div>
                     <div>
-                        <button class="btn btn-primary">Réserver</button>
+                        <button class="btn btn-outline-secondary" style='margin-bottom: 10px;'>Réserver</button>
                     </div>
                     <div>
                         <span class="price"><?= $events[0]['price'] ?>€</span>
@@ -118,3 +118,7 @@ $dates_rouges_json = json_encode($dates_rouges);
   
 
 </html>
+
+<?php
+include "footer.php";
+?>
