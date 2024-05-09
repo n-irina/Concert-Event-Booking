@@ -34,10 +34,12 @@ $artists = $statement2->fetchAll(PDO::FETCH_ASSOC);
 // Créer un tableau de dates à passer à JavaScript
 $dates_vertes = [];
 $dates_rouges = [];
+
 foreach ($events as $event) {
     if ($event['numberPlaces'] < 1000) {
         $dates_vertes[] = $event['date'];
-    } else {
+    } 
+    else {
         $dates_rouges[] = $event['date'];
     }
 }
@@ -109,6 +111,7 @@ $iddates_json = json_encode($iddates);
         let calendar = new FullCalendar.Calendar(calendarEl, {
             
             initialView: 'dayGridMonth',
+            initialDate: datesVertes[0],
             locale: 'fr',
             events: [
                 <?php foreach ($dates_vertes as $key => $date) { ?>
