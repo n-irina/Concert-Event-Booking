@@ -57,12 +57,11 @@
                                 </form>
                             <?php endif; ?>
                         </div>
-                        <div class="usericon ms-3">
-                            <i class="fas fa-user"></i>
+                        <div class="carticon ms-2">
+                            <a href="cart.php" class="nav-link">
+                                <i class="fa fa-shopping-cart"></i>
+                            </a>
                         </div>
-                        <li class="nav-item">
-                            <a class="nav-link" href="cart.php">Panier</a>
-                        </li>
                     </div>
                 </div>
             </nav>

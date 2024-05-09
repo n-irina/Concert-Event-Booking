@@ -82,7 +82,7 @@ if (empty($_GET['search'])) {
         ],
         eventClick: function(info) {
             // Rediriger vers la page de réservation lorsque l'utilisateur clique sur un événement
-            window.location.href = "booking.php";
+            window.location.href = "addcart.php";
         },
         locale: 'fr', // Définir la locale en français
         dayHeaderFormat: { weekday: 'narrow' } // Formater le format d'en-tête de jour
