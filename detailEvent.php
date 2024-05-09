@@ -107,7 +107,9 @@ $iddates_json = json_encode($iddates);
         let calendarEl = document.getElementById('calendar');
 
         let calendar = new FullCalendar.Calendar(calendarEl, {
+            
             initialView: 'dayGridMonth',
+            locale: 'fr',
             events: [
                 <?php foreach ($dates_vertes as $key => $date) { ?>
                     {   
